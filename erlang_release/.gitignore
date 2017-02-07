@@ -1,9 +1,0 @@
-ebin/*
-*.beam
-deps/*
-*.plt
-*.DS_Store
-*.log
-apps/*/logs
-erl_crash.dump
-Mnesia*
