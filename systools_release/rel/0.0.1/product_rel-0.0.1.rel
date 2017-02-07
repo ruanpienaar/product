@@ -1,0 +1,15 @@
+{release,
+  {"product_rel","0.0.1"},
+  {erts, "8.1"}, %% erlang:system_info(version).
+  [
+    %% These are required as a minimum, If the release is to be upgraded, it must also include the SASL application.
+    {kernel, "5.1"},
+    {stdlib, "3.1"},
+    {sasl, "3.0.1"},
+
+    %% Here will be your own applications
+    {product, "0.1"}
+
+    %,{ApplicationN, AppVsnN}
+    % ...
+]}.
