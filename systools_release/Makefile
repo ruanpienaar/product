@@ -19,16 +19,17 @@ release:
 
 # For running locally
 run_release:
-	erl -boot rel/$(RELEASE)/product_rel-$(RELEASE) # boot a local release
+	erl -config sys.config -boot rel/$(RELEASE)/product_rel-$(RELEASE) # boot a local release
 
 # For generating a package, for remote installation
 package:
 	escript generate_rel.esh "$(RELEASE)" # Generate release resource file .rel
+	cp sys.config rel/$(RELEASE)/
 	escript generate_tar.esh "$(RELEASE)" # Generate the release in compressed form to ship out
-	sed 's/RELEASE_VSN/$(RELEASE)/' start_release.sh.template > rel/start_release.sh
+	sed 's/RELEASE_VSN/$(RELEASE)/' start_release.sh.template > start_release.sh
 	gunzip rel/$(RELEASE)/product_rel-$(RELEASE).tar.gz
 	tar -rvf rel/$(RELEASE)/product_rel-$(RELEASE).tar start_release.sh
-	chmod +x start_release.sh
 	gzip -f rel/$(RELEASE)/product_rel-$(RELEASE).tar
+	rm start_release.sh
 	
 	
