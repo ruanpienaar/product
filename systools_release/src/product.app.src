@@ -3,7 +3,7 @@
   {description, "a simple erlang application to illustrate the release mechanism"},
   {id, "product"},
   {vsn, "0.1"},
-  {modules, [product_app, product_sup, product]},
+  {modules, [MODS]},
   {registered, [product_sup]},
   {applications, [
                   kernel,

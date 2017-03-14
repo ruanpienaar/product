@@ -1,10 +1,16 @@
+# Get the release vsn set in the env, or use the default.
 ifndef RELEASE
 export RELEASE = 0.0.1
 endif
 
 .PHONY: compile
 
-compile:
+app-file:
+	ERLMODS = $(shell find src -name "*.erl" | awk -F'/' '{print $NF}'| sed 's/.erl//') # Get all the modules
+	echo $(ERLMODS)
+	#sed 's/MODS/$(ERLMODS)/' src/product.app.src > ebin/product.app
+
+compile: app-file
 	mkdir -p ebin
 	erlc -I include -o ebin/ src/*.erl
 	cp src/product.app.src ebin/product.app # Yeah - i know - this is not how normal people do it... take it with a grain of salt
@@ -31,5 +37,4 @@ package:
 	tar -rvf rel/$(RELEASE)/product_rel-$(RELEASE).tar start_release.sh
 	gzip -f rel/$(RELEASE)/product_rel-$(RELEASE).tar
 	rm start_release.sh
-	
 	
