@@ -1,0 +1,36 @@
+#!/usr/bin/env escript
+%% -*- erlang -*-
+%%! -pa ebin
+-mode(compile).
+
+main([ProductRel]) ->
+	{ok, KVsn} = application:get_key(kernel, vsn),
+	{ok, StVsn} = application:get_key(stdlib, vsn),
+	ok = application:load(sasl),
+	{ok, SaVsn} = application:get_key(sasl, vsn),
+	ok = application:load(product),
+	{ok, ProductVsn} = application:get_key(product, vsn),
+	KVs = [{'ProductRel', ProductRel},
+                 {'ErtsVsn', erlang:system_info(version)},
+                 {'KernelVsn', KVsn},
+                 {'StdlibVsn', StVsn},
+                 {'SaslVsn', SaVsn},
+                 {'ProductVsn', ProductVsn}
+                ],
+	Bindings = lists:foldl(fun({K,V},Acc) -> orddict:store(K,V,Acc) end, orddict:new(),KVs),
+	{ok,Terms} = file:script("rel_template.rel", Bindings),
+	RelDir = "rel/"++ProductRel,
+	make_dir("rel"),
+	make_dir(RelDir),
+	ok = file:write_file(
+		RelDir++"/"++"product_rel-"++ProductRel++".rel",
+		list_to_binary(io_lib:format("~p.", [Terms]))
+	).
+
+make_dir(Dir) ->
+	case file:make_dir(Dir) of 
+                {error,eexist} ->
+                        ok;
+                ok ->
+                        ok
+        end.

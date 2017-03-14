@@ -1,0 +1,2 @@
+#!/bin/bash
+erl -boot releases/RELEASE_VSN/start -pa lib/*/ebin

@@ -1,0 +1,8 @@
+#!/usr/bin/env escript
+%% -*- erlang -*-
+%%! -pa ebin
+-mode(compile).
+
+main([ProductRel]) ->
+	RelDir = "rel/"++ProductRel,
+	ok = systools:make_script(RelDir++"/product_rel-"++ProductRel, [local, {outdir,RelDir}]).
