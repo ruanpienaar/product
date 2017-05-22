@@ -1,41 +1,38 @@
 .PHONY: rel compile get-deps update-deps test clean deep-clean
 
 rel: compile
-	@rebar generate -f
+	@./rebar generate -f
 
-compile: get-deps
-	@rebar compile
+compile: rebar get-deps update-deps
+	@./rebar compile
 
 get-deps:
-	@rebar get-deps
+	@./rebar get-deps
 
 update-deps:
-	@rebar update-deps
-
-test:
-	@rebar skip_deps=true apps="product" eunit
+	@./rebar update-deps
 
 clean:
-	rm apps/product/ebin/*
+	@./rebar clean
 
 deep-clean: clean
-	@rebar delete-deps
+	@./rebar delete-deps
 
 setup_dialyzer:
-	dialyzer --build_plt --apps erts kernel stdlib mnesia compiler syntax_tools runtime_tools crypto tools inets ssl webtool public_key observer
-	dialyzer --add_to_plt deps/*/ebin
+	dialyzer --build_plt --apps erts kernel stdlib runtime_tools syntax_tools deps/*/ebin ./ebin
+	dialyzer --add_to_plt ebin
 
-doc:
-	rebar skip_deps=true doc
-	for app in $(APPS); do \
-		cp -R apps/$${app}/doc doc/$${app}; \
-	done;
+dialyzer: compile
+	dialyzer ebin
 
 analyze: checkplt
-	@rebar skip_deps=true dialyze
+	@./rebar skip_deps=true dialyze
 
-buildplt:
-	@rebar skip_deps=true build-plt
+buildplt: setup_dialyzer
+	@./rebar skip_deps=true build-plt
 
 checkplt: buildplt
-	@rebar skip_deps=true check-plt
+	@./rebar skip_deps=true check-plt
+
+rebar:
+	@ls rebar || wget https://raw.github.com/wiki/rebar/rebar/rebar && chmod u+x rebar

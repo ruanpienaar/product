@@ -5,15 +5,16 @@ endif
 
 .PHONY: compile
 
-app-file:
-	ERLMODS = $(shell find src -name "*.erl" | awk -F'/' '{print $NF}'| sed 's/.erl//') # Get all the modules
-	echo $(ERLMODS)
+#app-file:
+	#ERLMODS = $(shell find src -name "*.erl" | awk -F'/' '{print $NF}'| sed 's/.erl//') # Get all the modules
+	#echo $(ERLMODS)
 	#sed 's/MODS/$(ERLMODS)/' src/product.app.src > ebin/product.app
 
-compile: app-file
+compile:
 	mkdir -p ebin
 	erlc -I include -o ebin/ src/*.erl
-	cp src/product.app.src ebin/product.app # Yeah - i know - this is not how normal people do it... take it with a grain of salt
+	cp src/product.app.src ebin/product.app  # Yeah - i know - this is not how normal people do it... take it with a grain of salt
+	cp src/product.appup.src ebin/product.appup
 
 clean:
 	rm ebin/*
