@@ -1,17 +1,16 @@
-# How to create a Library with rebar and rebar templates
+# How to create a Library with rebar3 and rebar3 templates
 
-## setup rebar templates
+## setup rebar3 templates
 ```
-mkdir -p ~/.rebar
+mkdir -p ~/.config/rebar3/templates
 cd ~/code && git clone https://github.com/ruanpienaar/rebar_templates
-cd rebar_templates && cp rebar2/* ~/.rebar/templates/
+cd rebar_templates && cp rebar3/* ~/.config/rebar3/templates
 ```
 
 ## create library
 ```
 mkdir library && cd library
-rebar create template=library appid=dummy_library
-```
+rebar3 new library appid=dummy_library
 
 ## Run it:
 ```

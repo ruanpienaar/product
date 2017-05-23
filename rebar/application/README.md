@@ -4,7 +4,7 @@
 ```
 mkdir -p ~/.rebar
 cd ~/code && git clone https://github.com/ruanpienaar/rebar_templates
-cd rebar_templates && cp rebar2/* ~/.rebar
+cd rebar_templates && cp rebar2/* ~/.rebar/templates/
 ```
 
 ## create library
