@@ -7,7 +7,7 @@ cd ~/code && git clone https://github.com/ruanpienaar/rebar_templates
 cd rebar_templates && cp rebar2/* ~/.rebar/templates/
 ```
 
-## create library
+## create application
 ```
 mkdir application && cd application
 rebar create template=application appid=dummy_app releaseid=dummy_app_rel
